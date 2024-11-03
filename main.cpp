@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <numeric>
+#include <algorithm>
 #include "Goat.h"
 using namespace std;
 
@@ -18,6 +19,10 @@ void find_oldest_goat(const list<Goat> &trip);
 void find_youngest_goat(const list<Goat> &trip);
 void find_average_age(const list<Goat> &trip);
 void goat_search(const list<Goat> &trip);
+void sort_by_age(list<Goat> &trip);
+void reverse_list(list<Goat> &trip);
+void find_goats_color(const list<Goat> &trip);
+void find_goats_age(const list<Goat> &trip);
 
 int main() {
     srand(time(0));
@@ -80,6 +85,22 @@ int main() {
                 cout << "Search for a goat.\n";
                 goat_search(trip);
                 break;
+            case 8:
+                cout << "Sorting goats by age.\n";
+                sort_by_age(trip);
+                break;
+            case 9:
+                cout << "Reversing the list.\n";
+                reverse_list(trip);
+                break;
+            case 10:
+                cout << "Finding goats by color.\n";
+                find_goats_color(trip);
+                break;
+            case 11:
+                cout << "Finding goats by age.\n";
+                find_goats_age(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -100,10 +121,10 @@ int main_menu() {
     cout << "[5] Find the youngest goat\n";
     cout << "[6] Calculate average goat age\n";
     cout << "[7] Search of a goat\n";
-    cout << "[8] \n";
-    cout << "[9] \n";
-    cout << "[10] \n";
-    cout << "[11] \n";
+    cout << "[8] Sort goats by age\n";
+    cout << "[9] Reverse the list\n";
+    cout << "[10] Find goats by color\n";
+    cout << "[11] Find goats by age n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
@@ -216,4 +237,50 @@ void goat_search(const list<Goat> &trip)
     else
         cout << itSearch->get_name() << " not found.\n";
 
+}
+
+void sort_by_age(list<Goat> &trip)
+{
+    trip.sort([](const Goat &a, const Goat &b) {
+        return a.get_age() < b.get_age();
+    });
+
+    cout << "Goats are now sorted by age\n";
+}
+
+void reverse_list(list<Goat> &trip)
+{
+    trip.reverse();
+    cout << "Goat list is now reversed.\n";
+}
+
+void find_goats_color(const list<Goat> &trip)
+{
+    string color;
+    cout << "What color goats would you like to search for?: ";
+    getline(cin, color);
+    
+    list<Goat> goatColor;
+
+    copy_if(trip.begin(), trip.end(), back_inserter(goatColor),[color](const Goat &g) {
+        return g.get_color() == color;
+    });
+
+    if(!goatColor.empty())
+    {
+        cout << "The following goats are " << color << ":" << "\n";
+        display_trip(goatColor);
+    }
+    else
+    {
+        cout << "No goats of that color found.\n";
+    }
+}
+
+void find_goats_age(const list<Goat> &trip)
+{
+
+
+
+    
 }
