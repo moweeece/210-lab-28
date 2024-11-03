@@ -124,7 +124,7 @@ int main_menu() {
     cout << "[8] Sort goats by age\n";
     cout << "[9] Reverse the list\n";
     cout << "[10] Find goats by color\n";
-    cout << "[11] Find goats by age n";
+    cout << "[11] Find goats by age\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
@@ -185,7 +185,7 @@ void find_oldest_goat(const list<Goat> &trip)
     });
 
     if(oldest != trip.end()){
-        cout << "The oldest goat is: " << oldest->get_name() << "and is " << oldest->get_age() << " years old.\n";
+        cout << "The oldest goat is: " << oldest->get_name() << " at " << oldest->get_age() << " years old.\n";
     }
     else {
         cout << "No goats in the list.\n";
@@ -199,7 +199,7 @@ void find_youngest_goat(const list<Goat> &trip)
     });
 
     if(youngest != trip.end()){
-        cout << "The youngest goat is: " << youngest->get_name() << "and is " << youngest->get_age() << " years old.\n";
+        cout << "The youngest goat is: " << youngest->get_name() << " at " << youngest->get_age() << " years old.\n";
     }
     else {
         cout << "No goats in the list.\n";
@@ -256,19 +256,19 @@ void reverse_list(list<Goat> &trip)
 
 void find_goats_color(const list<Goat> &trip)
 {
-    string color;
+    string userColor;
     cout << "What color goats would you like to search for?: ";
-    getline(cin, color);
+    getline(cin, userColor);
     
     list<Goat> goatColor;
 
-    copy_if(trip.begin(), trip.end(), back_inserter(goatColor),[color](const Goat &g) {
-        return g.get_color() == color;
+    copy_if(trip.begin(), trip.end(), back_inserter(goatColor),[userColor](const Goat &g) {
+        return g.get_color() == userColor;
     });
 
     if(!goatColor.empty())
     {
-        cout << "The following goats are " << color << ":" << "\n";
+        cout << "The following goats are " << userColor << ":" << "\n";
         display_trip(goatColor);
     }
     else
@@ -279,8 +279,23 @@ void find_goats_color(const list<Goat> &trip)
 
 void find_goats_age(const list<Goat> &trip)
 {
-
-
-
+    int userAge;
+    cout << "What age goats would you like to search for?: ";
+    cin >> userAge;
     
+    list<Goat> goatAge;
+
+    copy_if(trip.begin(), trip.end(), back_inserter(goatAge),[userAge](const Goat &g) {
+        return g.get_age() == userAge;
+    });
+
+    if(!goatAge.empty())
+    {
+        cout << "The following goats are " << userAge << " years old:" << "\n";
+        display_trip(goatAge);
+    }
+    else
+    {
+        cout << "No goats of that age found.\n";
+    }
 }
