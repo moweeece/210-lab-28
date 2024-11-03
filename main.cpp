@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
 #include <list>
 #include "Goat.h"
 using namespace std;
@@ -13,6 +14,8 @@ void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 int main_menu();
 void find_oldest_goat(const list<Goat> &trip);
+void find_youngest_goat(const list<Goat> &trip);
+void goat_search(const list<Goat> &trip);
 
 int main() {
     srand(time(0));
@@ -63,6 +66,18 @@ int main() {
                 cout << "Displaying the oldest goat.\n";
                 find_oldest_goat(trip);
                 break;
+            case 5:
+                cout << "Displaying the youngest goat.\n";
+                find_youngest_goat(trip);
+                break;
+            case 6:
+                cout << "Calculating average age.\n";
+                find_average_age(trip);
+                break;
+            case 7:
+                cout << "Search for a goat.\n";
+                goat_search(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -79,10 +94,10 @@ int main_menu() {
     cout << "[1] Add a goat\n";
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
-    cout << "[4] Find the Oldest Goat\n";
-    cout << "[5] \n";
-    cout << "[6] \n";
-    cout << "[7] \n";
+    cout << "[4] Find the oldest goat\n";
+    cout << "[5] Find the youngest goat\n";
+    cout << "[6] Calculate average goat age\n";
+    cout << "[7] Search of a goat\n";
     cout << "[8] \n";
     cout << "[9] \n";
     cout << "[10] \n";
@@ -152,5 +167,36 @@ void find_oldest_goat(const list<Goat> &trip)
     else {
         cout << "No goats in the list.\n";
     }
+}
+
+void find_youngest_goat(const list<Goat> &trip)
+{
+    auto youngest = min_element(trip.begin(), trip.end(), [](const Goat &a, const Goat &b) { 
+        return a.get_age() < b.get_age();
+    });
+
+    if(youngest != trip.end()){
+        cout << "The youngest goat is: " << youngest->get_name() << "and is " << youngest->get_age() << " years old.\n";
+    }
+    else {
+        cout << "No goats in the list.\n";
+    }
+}
+
+void goat_search(const list<Goat> &trip)
+{
+    string searchGoat;
+    cout << "Which goat would you like to search for?: ";
+    getline(cin, searchGoat);
+    cout << endl;
+
+    auto itSearch = find_if(trip.begin(), trip.end(), [searchGoat](const Goat &g) {
+        return g.get_name() == searchGoat;
+    });
+
+    if (itSearch != trip.end())
+        cout << "Found: " << itSearch->get_name() << " (Age: " << itSearch->get_age() << " , Color: " << itSearch->get_color() << ")\n";
+    else
+        cout << itSearch->get_name() << " not found.\n";
 
 }
