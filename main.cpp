@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <list>
+#include <numeric>
 #include "Goat.h"
 using namespace std;
 
@@ -15,6 +16,7 @@ void display_trip(list<Goat> trip);
 int main_menu();
 void find_oldest_goat(const list<Goat> &trip);
 void find_youngest_goat(const list<Goat> &trip);
+void find_average_age(const list<Goat> &trip);
 void goat_search(const list<Goat> &trip);
 
 int main() {
@@ -181,6 +183,21 @@ void find_youngest_goat(const list<Goat> &trip)
     else {
         cout << "No goats in the list.\n";
     }
+}
+
+void find_average_age(const list<Goat> &trip)
+{
+    if (trip.empty())
+    {
+        cout << "No goats in the list.\n";
+    }
+
+    int age = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat &g) {
+        return sum + g.get_age();
+    });
+
+    double average = static_cast<double>(age) / trip.size();
+    cout << "The average age of the goats is: " << fixed << setprecision(2) << average << endl;
 }
 
 void goat_search(const list<Goat> &trip)
